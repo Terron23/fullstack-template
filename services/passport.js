@@ -22,30 +22,39 @@ done(null, user);
 passport.use(new GoogleStrategy({
     
     clientID: googleClientID,
-    clientSecret: googleClientSecret, //"zaM_CAglF6dLM2YDpNRTwXMk",//keys.googleClientsecret,
+    clientSecret: googleClientSecret, 
     callbackURL: '/auth/google/callback',
     proxy: true
 },
-(accessToken, refreshToken, profile, done ) =>{
-// console.log("accestoken", accessToken);
-// console.log("refreshToken", refreshToken);
-// console.log("profile", profile);
-// console.log("done", done);
-// console.log(keys.googleClientID);
-// console.log(keys.googleClientSecret);
-User.findOne({googleID: profile.id})
-.then((existingUser)=>{
+async (accessToken, refreshToken, profile, done ) =>{
+const existingUser = await User.findOne({googleID: profile.id})
 if(existingUser){
 done(null, existingUser)
 }
-else{
-    new User({
-        googleID: profile.id
-    }).save()
-    .then((user)=> done(null, user));
-}
-})
+    const user = await new User({googleID: profile.id}).save()
+     done(null, user);
+
 
 
 
 }));
+
+
+
+// async function fetchAlbums(){
+//     const res = await fetch("https://rallycoding.herokuapp.com/api/music_albums")
+//     const json = await res.json()
+// console.log(json)
+// }
+
+// fetchAlbums();
+
+
+
+// const fetchAlbums = async () => {
+//     const res = await fetch("https://rallycoding.herokuapp.com/api/music_albums")
+//     const json = await res.json()
+// console.log(json)
+// }
+
+// fetchAlbums();
