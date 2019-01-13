@@ -24,7 +24,8 @@ app.use(passport.session());
 authRoutes(app);
 
 app.get('/', (req, res)=>{
-    res.send({"test": keys.googleClientID})
+    //res.send({"test": keys.googleClientID})
+    res.sendFile("client/build/index.html")
 })
 
 
